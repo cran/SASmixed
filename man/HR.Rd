@@ -1,0 +1,61 @@
+\name{HR}
+\alias{HR}
+\non_function{}
+\title{Heart rates of patients on different drug treatments}
+\description{
+    The \code{HR} data frame has 120 rows and 5 columns of the heart
+    rates of patients under one of three possible drug treatments.
+}
+\format{
+    This data frame contains the following columns:
+    \describe{
+	\item{Patient}{
+	    an ordered factor indicating the patient.
+	}
+	\item{Drug}{
+	    the drug treatment - a factor with levels \code{a},
+	    \code{b} and \code{p} where \code{p} represents the placebo.
+	}
+	\item{baseHR}{
+	    the patient's base heart rate
+	}
+	\item{HR}{
+	    the observed heart rate at different times in the experiment
+	}
+	\item{Time}{
+	    the time of the observation
+	}
+    }
+}
+\source{
+    Littel, R. C., Milliken, G. A., Stroup, W. W., and Wolfinger,
+    R. D. (1996), \emph{SAS System for Mixed Models}, SAS Institute
+    (Data Set 3.5).
+}
+\examples{
+library(SASmixed)
+options(
+  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
+data(HR)
+coplot(HR ~ Time | Patient, type = "b", data = HR, show = FALSE)
+formula(HR)
+fm1HR <- lme( HR ~ Time * Drug + baseHR, data = HR,  # linear trend in time
+   random = ~ Time | Patient)
+summary( fm1HR )
+VarCorr( fm1HR )
+anova( fm1HR )
+fm2HR <- update( fm1HR, weights = varPower(0) ) # use power-of-mean variance
+summary( fm2HR )
+VarCorr( fm1HR )
+intervals( fm2HR )             # variance function does not seem significant
+anova( fm1HR, fm2HR )         # confirm with likelihood ratio
+fm3HR <- update( fm1HR, HR ~ Time + Drug + baseHR ) # remove interaction
+anova( fm3HR )
+summary( fm3HR )
+VarCorr( fm3HR )
+fm4HR <- update( fm3HR, HR ~ Time + baseHR )  # remove Drug term
+anova( fm4HR )
+summary( fm4HR )
+VarCorr( fm4HR )
+}
+\keyword{datasets}
