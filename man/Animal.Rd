@@ -21,7 +21,7 @@
 	}
     }
 }\details{
-    This appears to be constructed data.
+    This appears to be a constructed data set.
 }
 \source{
     Littel, R. C., Milliken, G. A., Stroup, W. W., and Wolfinger,
