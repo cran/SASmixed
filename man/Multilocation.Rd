@@ -69,7 +69,7 @@ anova( fm2Mult )
 fm1MultR <- lme( Adj ~ Trt, data = Multilocation,
   random = list( Location = pdCompSymm( ~ Trt - 1 ), Block = ~ 1 ) )
 summary( fm1MultR )
-intervals( fm1MultR )
+\dontrun{intervals( fm1MultR )}
 VarCorr( fm1MultR )
 anova( fm1MultR )
 \dontrun{

@@ -1,3 +1,8 @@
+2001-12-30  Douglas Bates  <bates@stat.wisc.edu>
+
+	* man/Multilocation.Rd: Commented out the call to intervals in the
+	examples section because it caused an error on some systems.
+
 2001-12-10  Douglas Bates  <bates@stat.wisc.edu>
 
 	* man/Animal.Rd: Removed the library(SASmixed) from the example in

@@ -35,7 +35,6 @@
   (Data Set 3.2(a)).
 }
 \examples{
-library(SASmixed)
 options(
   contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
 data(Weights)
