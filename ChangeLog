@@ -1,3 +1,9 @@
+2004-10-03  Douglas Bates  <bates@bates1-home>
+
+	* DESCRIPTION (Depends): Add Depends and LazyData
+
+	* R/zzz.R (.onLoad): Move the require(nlme) to an .onLoad function
+
 2003-06-04  Douglas Bates  <bates@stat.wisc.edu>
 
 	* man/HR.Rd: Change starting estimate in ill-considered fit with a
