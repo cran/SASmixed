@@ -46,7 +46,6 @@
   (Data Set 2.8.1).
 }
 \examples{
-library(SASmixed)
 options(
   contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
 data(Multilocation)

@@ -34,7 +34,6 @@
 	System for Linear Models, Third Ed.}, SAS Institute.
 }
 \examples{
-library(SASmixed)
 data(Cultivation)
 options(
   contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))

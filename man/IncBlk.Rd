@@ -31,7 +31,7 @@
     (Data Set 5.5).
 }
 \examples{
-library(SASmixed)
 data(IncBlk)
+str(IncBlk)
 }
 \keyword{datasets}

@@ -27,7 +27,6 @@
     (Data Set 1.5.1).
 }
 \examples{
-library(SASmixed)
 options(
   contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
 data(PBIB)

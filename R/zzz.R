@@ -1,4 +1,4 @@
-### $Id: zzz.R,v 1.1 2000/02/09 18:41:49 bates Exp $
+### $Id: zzz.R,v 1.2 2001/01/12 20:48:42 bates Exp $
 ###
 ###    Sample analyses of data from SAS System for Mixed Models
 ###

@@ -35,7 +35,6 @@
 
 }
 \examples{
-library(SASmixed)
 options(
   contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
 data(Semiconductor)

@@ -32,7 +32,6 @@
     \emph{Mathematical Statistics}, Wadsworth (Exercise 13.36).
 }
 \examples{
-library(SASmixed)
 data(Bond)
 options(
   contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))

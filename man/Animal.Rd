@@ -29,7 +29,7 @@
     (Data Set 6.4).
 }
 \examples{
-library(SASmixed)
 data(Animal)
+str(Animal)
 }
 \keyword{datasets}

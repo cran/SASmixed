@@ -28,7 +28,6 @@ The \code{Genetics} data frame has 60 rows and 4 columns.
     (Data Set 4.5).
 }
 \examples{
-library(SASmixed)
 data(Genetics)
 options(
   contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))

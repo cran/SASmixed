@@ -38,7 +38,6 @@
     (Data Set 5.3).
 }
 \examples{
-library(SASmixed)
 data(AvgDailyGain)
 options(
   contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))

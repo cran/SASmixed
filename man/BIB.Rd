@@ -37,7 +37,6 @@
     (Data Set 5.4).
 }
 \examples{
-library(SASmixed)
 data(BIB)
 options(
   contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))

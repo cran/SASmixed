@@ -45,9 +45,9 @@
     (Data Set 5.8).
 }
 \examples{
-library(SASmixed)
 options(
   contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
 data(WaferTypes)
+str(WaferTypes)
 }
 \keyword{datasets}

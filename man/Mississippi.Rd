@@ -29,7 +29,6 @@ The \code{Mississippi} data frame has 37 rows and 3 columns.
     (Data Set 4.2).
 }
 \examples{
-library(SASmixed)
 options(
   contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
 data(Mississippi)

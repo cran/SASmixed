@@ -1,0 +1,6 @@
+2001-12-10  Douglas Bates  <bates@stat.wisc.edu>
+
+	* man/Animal.Rd: Removed the library(SASmixed) from the example in
+	this help page and in all the others.
+	
+

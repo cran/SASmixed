@@ -34,7 +34,6 @@
     (Data Set 4.4).
 }
 \examples{
-library(SASmixed)
 options(
   contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
 data(Semi2)

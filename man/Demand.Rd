@@ -45,10 +45,9 @@
     (Data Set 1.2.4).
 
     Feige, E. L. (1964), \emph{The Demand for Liquid Assets: A Temporal
-	Cross-Sectional Analysis.
+	Cross-Sectional Analysis.}, Prentice Hall.
 }
 \examples{
-library(SASmixed)
 data(Demand)
 names( Demand )
 formula( Demand )
