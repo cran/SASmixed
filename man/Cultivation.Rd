@@ -34,21 +34,18 @@
 	System for Linear Models, Third Ed.}, SAS Institute.
 }
 \examples{
-data(Cultivation)
-options(
-  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
-names( Cultivation )
-formula( Cultivation )
-fm1Cult <- lme( drywt ~ Inoc * Cult, data = Cultivation, 
-                random = list( Block = ~ 1, Cult = ~ 1 ) )
-summary( fm1Cult )   # compare with Output 2.10, page 58
-VarCorr( fm1Cult )   
-anova( fm1Cult )
-fm2Cult <- update( fm1Cult, drywt ~ Inoc + Cult )
-anova( fm2Cult )
-fm3Cult <- update( fm1Cult, drywt ~ Inoc )
-anova( fm3Cult )
-summary( fm3Cult )
-VarCorr( fm3Cult )
+#options(
+#  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
+str(Cultivation)
+xtabs(~Block+Cult, Cultivation)
+fm1Cult <- lme(drywt ~ Inoc * Cult, data = Cultivation, 
+                random = list(Block = ~ 1, Cult = ~ 1))
+summary(fm1Cult)   # compare with Output 2.10, page 58
+anova(fm1Cult)
+fm2Cult <- update(fm1Cult, drywt ~ Inoc + Cult)
+anova(fm2Cult)
+fm3Cult <- update(fm1Cult, drywt ~ Inoc)
+anova(fm3Cult)
+summary(fm3Cult)
 }
 \keyword{datasets}

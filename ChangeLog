@@ -1,3 +1,13 @@
+2004-11-04  Douglas Bates  <bates@bates1-home>
+
+	* DESCRIPTION (Depends): Change dependency to lme4
+
+	* data/: All data sets converted to new groupedData format and
+	stored as compressed .rda objects.
+
+	* man/: Examples in manual pages converted to use the lme4 package
+	and gplot.
+
 2004-10-03  Douglas Bates  <bates@bates1-home>
 
 	* DESCRIPTION (Depends): Add Depends and LazyData

@@ -28,17 +28,13 @@
 	}
     }
 }
-\details{
-
-}
+%\details{}
 \source{
     Littel, R. C., Milliken, G. A., Stroup, W. W., and Wolfinger,
     R. D. (1996), \emph{SAS System for Mixed Models}, SAS Institute
     (Data Set 5.7).
 }
 \examples{
-options(
-  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
-data(TeachingII)
+str(TeachingII)
 }
 \keyword{datasets}

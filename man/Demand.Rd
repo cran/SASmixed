@@ -33,10 +33,6 @@
 	    a numeric vector of interest rates on savings and loan
 	    association shares.
 	}
-	\item{grp}{
-	    a dummy factor with a single level.  This is used to
-	    construct crossed random effects in \code{lme}.
-	}
     }
 }
 \source{
@@ -48,18 +44,10 @@
 	Cross-Sectional Analysis.}, Prentice Hall.
 }
 \examples{
-data(Demand)
-names( Demand )
-formula( Demand )
-# the "grp" factor is a dummy factor with only one level.
-unique( Demand$grp )
-# Crossed random-effects factors have to be created by pdIdent
-#  applied to the indicator variables and joined by pdBlocked.
+str(Demand)
 fm1Demand <-
-  lme( log(d) ~ log(y) + log(rd) + log(rt) + log(rs), data = Demand,
-  random = list(grp = pdBlocked(list(pdIdent(~ State - 1),
-                                     pdIdent(~ Year - 1)))))
-summary( fm1Demand )        # compare to output 3.13, p. 132
-VarCorr( fm1Demand )
+  lme(log(d) ~ log(y) + log(rd) + log(rt) + log(rs), data = Demand,
+  random = list(State = ~ 1, Year = ~ 1))
+summary(fm1Demand)        # compare to output 3.13, p. 132
 }
 \keyword{datasets}

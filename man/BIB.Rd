@@ -37,18 +37,15 @@
     (Data Set 5.4).
 }
 \examples{
-data(BIB)
-options(
-  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
-coplot(y ~ x | Block, data = BIB, show = FALSE)
+#options(
+#  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
+gplot(BIB)
 fm1BIB <- lme(y ~ Treatment * x, data = BIB, random = ~ 1 | Block)
 summary(fm1BIB)   # compare with Output 5.7, p. 188
-VarCorr(fm1BIB)
 anova(fm1BIB)     # strong evidence of different slopes
 fm2BIB <- lme(y ~ Treatment + x : Grp, data = BIB,
               random = ~ 1 | Block)
 summary(fm2BIB)   # compare with Output 5.9, p. 193
-VarCorr(fm2BIB)
 anova(fm2BIB)
 }
 \keyword{datasets}

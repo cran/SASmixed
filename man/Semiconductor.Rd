@@ -35,18 +35,12 @@
 
 }
 \examples{
-options(
-  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
-data(Semiconductor)
-formula( Semiconductor )
-names( Semiconductor )
-fm1Semi <- lme( resistance ~ ET * position,
-                 data = Semiconductor,
-                 random = ~ 1 | Grp)
-summary( fm1Semi )
-VarCorr( fm1Semi )
-anova( fm1Semi )
-fm2Semi <- update( fm1Semi, resistance ~ ET + position )
+options(contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
+str(Semiconductor)
+fm1Semi <- lme(resistance ~ ET * position, Semiconductor, ~ 1 | Grp)
+summary(fm1Semi)
+anova(fm1Semi)
+fm2Semi <- update(fm1Semi, resistance ~ ET + position)
 anova(fm2Semi)
 }
 \keyword{datasets}

@@ -46,37 +46,28 @@
   (Data Set 2.8.1).
 }
 \examples{
-options(
-  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
-data(Multilocation)
-formula( Multilocation )
-names( Multilocation )
+options(contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
+str(Multilocation)
 ### Create a Block %in% Location factor
-Multilocation$Grp <-
-  getGroups( Multilocation, form = ~ Location/Block, level = 2 )
-fm1Mult <- lme( Adj ~ Location * Trt, data = Multilocation, ~ 1 | Grp)
-summary( fm1Mult )
-VarCorr( fm1Mult )
-anova( fm1Mult )
-fm2Mult <- update( fm1Mult, Adj ~ Location + Trt )
-fm3Mult <- update( fm1Mult, Adj ~ Location )
-fm4Mult <- update( fm1Mult, Adj ~ Trt )
-fm5Mult <- update( fm1Mult, Adj ~ 1 )
-summary( fm2Mult )
-VarCorr( fm2Mult )
-anova( fm2Mult )
+Multilocation$Grp <- with(Multilocation, Block:Location)
+fm1Mult <- lme(Adj ~ Location * Trt, data = Multilocation, ~ 1 | Grp)
+summary(fm1Mult)
+anova(fm1Mult)
+fm2Mult <- update(fm1Mult, Adj ~ Location + Trt)
+fm3Mult <- update(fm1Mult, Adj ~ Location)
+fm4Mult <- update(fm1Mult, Adj ~ Trt)
+fm5Mult <- update(fm1Mult, Adj ~ 1)
+summary(fm2Mult)
+anova(fm2Mult)
+anova(fm1Mult, fm2Mult, fm3Mult, fm4Mult, fm5Mult)
+Multilocation$LocTrt <- with(Multilocation, Location:Trt)
 ### Treating the location as a random effect
-\dontrun{fm1MultR <- lme( Adj ~ Trt, data = Multilocation,
-  random = list( Location = pdCompSymm( ~ Trt - 1 ), Block = ~ 1 ) )
-summary( fm1MultR )
-intervals( fm1MultR )
-VarCorr( fm1MultR )
-anova( fm1MultR )
-}
-\dontrun{
+fm1MultR <- lme(Adj ~ Trt, Multilocation, ~ 1 | LocTrt + Location + Grp)
+summary(fm1MultR)
+#intervals(fm1MultR)
+anova(fm1MultR)
 fm2MultR <-
-  update( fm1MultR, random = list( Location = ~ Trt - 1, Block = ~ 1 ))
-anova( fm1MultR, fm2MultR )
-}
+  update(fm1MultR, random = list(Location = ~ Trt - 1, Block = ~ 1))
+anova(fm1MultR, fm2MultR)
 }
 \keyword{datasets}

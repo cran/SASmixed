@@ -33,28 +33,24 @@
     (Data Set 3.5).
 }
 \examples{
-options(
-  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
-data(HR)
-coplot(HR ~ Time | Patient, type = "b", data = HR, show = FALSE)
-formula(HR)
-fm1HR <- lme( HR ~ Time * Drug + baseHR, data = HR,  # linear trend in time
+#options(
+#  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
+gplot(HR)
+fm1HR <- lme(HR ~ Time * Drug + baseHR, data = HR,  # linear trend in time
    random = ~ Time | Patient)
-summary( fm1HR )
-VarCorr( fm1HR )
-anova( fm1HR )
-fm2HR <- update( fm1HR, weights = varPower(0.5) ) # use power-of-mean variance
-summary( fm2HR )
-VarCorr( fm1HR )
-intervals( fm2HR )             # variance function does not seem significant
-anova( fm1HR, fm2HR )         # confirm with likelihood ratio
-fm3HR <- update( fm1HR, HR ~ Time + Drug + baseHR ) # remove interaction
-anova( fm3HR )
-summary( fm3HR )
-VarCorr( fm3HR )
-fm4HR <- update( fm3HR, HR ~ Time + baseHR )  # remove Drug term
-anova( fm4HR )
-summary( fm4HR )
-VarCorr( fm4HR )
+summary(fm1HR)
+anova(fm1HR)
+\dontrun{
+fm2HR <- update(fm1HR, weights = varPower(0.5)) # use power-of-mean variance
+summary(fm2HR)
+intervals(fm2HR)             # variance function does not seem significant
+anova(fm1HR, fm2HR)         # confirm with likelihood ratio
+}
+fm3HR <- update(fm1HR, HR ~ Time + Drug + baseHR) # remove interaction
+anova(fm3HR)
+summary(fm3HR)
+fm4HR <- update(fm3HR, HR ~ Time + baseHR)  # remove Drug term
+anova(fm4HR)
+summary(fm4HR)
 }
 \keyword{datasets}

@@ -31,12 +31,10 @@
     ML3, and VARCL'', \emph{American Statistician}, \bold{48}, 324--335.
 }
 \examples{
-data(SIMS)
+str(SIMS)
 fm1SIMS <- lme(Gain ~ Pretot, data = SIMS, 
     random = ~ Pretot | Class, control = list(msVerbose = TRUE))
 summary(fm1SIMS)              # compare to output 7.4, p. 262
-VarCorr(fm1SIMS)
 anova(fm1SIMS)
-intervals( fm1SIMS )
 }
 \keyword{datasets}

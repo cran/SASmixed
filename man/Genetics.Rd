@@ -28,14 +28,12 @@ The \code{Genetics} data frame has 60 rows and 4 columns.
     (Data Set 4.5).
 }
 \examples{
-data(Genetics)
-options(
-  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
-formula( Genetics )
-fm1Gen <- lme( Yield ~ 1, data = Genetics,
-   random = list(Location = pdCompSymm(~ Family - 1), Block = ~ 1) )
-summary( fm1Gen )
-VarCorr( fm1Gen )      # compare with Output 4.18, p. 165
-anova( fm1Gen )
+options(contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
+str(Genetics)
+Genetics$LocFam <- with(Genetics, Location:Family)
+Genetics$LocBloc <- with(Genetics, Location:Block)
+fm1Gen <- lme(Yield ~ 1, Genetics, ~ 1 | LocBloc + LocFam + Location)
+summary(fm1Gen)
+summary(fm2Gen <- update(fm1Gen, Yield ~ Family))
 }
 \keyword{datasets}

@@ -1,0 +1,549 @@
+\documentclass[12pt]{article}
+\usepackage{Sweave}
+\usepackage{myVignette}
+\usepackage[authoryear,round]{natbib}
+\newcommand{\s}{\textsf{S}}
+\newcommand{\R}{\textsf{R}}
+\bibliographystyle{plainnat}
+\DefineVerbatimEnvironment{Sinput}{Verbatim}
+{formatcom={\vspace{-2.5ex}},fontshape=sl,
+  fontfamily=courier,fontseries=b, fontsize=\small}
+\DefineVerbatimEnvironment{Example}{Verbatim}
+{formatcom={\vspace{-2.5ex}},
+  fontfamily=courier,fontseries=b, fontsize=\small}
+\DefineVerbatimEnvironment{Soutput}{Verbatim}
+{formatcom={\vspace{-2.5ex}},fontfamily=courier,fontseries=b,%
+  fontsize=\small}
+%%\VignetteIndexEntry{lme for SAS PROC MIXED Users}
+%%\VignetteDepends{SASmixed}
+%%\VignetteDepends{lme4}
+\begin{document}
+\SweaveOpts{engine=R,eps=FALSE,pdf=TRUE,width=5,height=3,strip.white=TRUE}
+\SweaveOpts{prefix=TRUE,prefix.string=figs/f,include=FALSE}
+\setkeys{Gin}{width=\textwidth}
+\title{\textbf{\textsf{lme} for \textsf{SAS PROC MIXED} Users}}
+\author{Douglas Bates\\Department of Statistics\\University of
+  Wisconsin -- Madison\\\email{Bates@wisc.edu}}
+\date{}
+\maketitle
+<<preliminaries,echo=FALSE,results=hide>>=
+options(width=75, contrasts=c(unordered="contr.SAS",ordered="contr.poly"))
+library(SASmixed)
+library(lattice)
+@ 
+\section{Introduction}
+\label{sec:intro}
+
+The \code{lme} function from the \code{lme4} library for \textsf{R} is used
+to fit linear mixed-effects models.  It is similar in scope to the
+\textsf{SAS} procedure \code{PROC MIXED} described in
+\citet{litt:mill:stro:wolf:1996}.
+
+A file on the SAS Institute web site (\textsf{http://www.sas.com})
+contains all the data sets in the book and all the SAS programs used
+in \citet{litt:mill:stro:wolf:1996}.  We have converted the data
+sets from the tabular representation used for SAS to the
+\code{groupedData} objects used by \code{lme}.  To help users familiar
+with \code{SAS PROC MIXED} get up to speed with \code{lme} more quickly,
+we provide transcripts of some \code{lme} analyses paralleling the
+\code{SAS PROC MIXED} analyses in \citet{litt:mill:stro:wolf:1996}.
+
+In this paper we highlight some of the similarities and differences of
+\code{lme} analysis and \code{SAS PROC MIXED} analysis.
+
+\section{Similarities between lme and SAS PROC MIXED}
+\label{sec:similarities}
+
+Both \code{SAS PROC MIXED} and \code{lme} can fit linear mixed-effects
+models expressed in the Laird-Ware formulation.  For a single level of
+grouping \citet{lair:ware:1982} write the $n_i\/$-dimensional
+response vector $\by_i$ for the $i\/$th experimental unit as
+\begin{gather}
+  \label{eqn:oneLevel}
+  \by_i = \bX_i \bbeta + \bZ_i \bb_i + \beps_i,\quad i=1,\dots,M\\
+  \bb_i\sim\mathcal{N}(\bzer,\bSigma),
+  \quad\beps_i\sim\mathcal{N}(\bzer,\sigma^2 \bI)\notag
+\end{gather}
+where $\bbeta$ is the $p$-dimensional vector of \emph{fixed effects},
+$\bb_i$ is the $q$-dimensional vector of \emph{random effects},
+$\bX_i$ (of size $n_i\times p$) and $\bZ_i$ (of size $n_i\times q$)
+are known fixed-effects and random-effects regressor matrices, and
+$\beps_i$ is the $n_i\/$-dimensional \emph{within-group error} vector
+with a spherical Gaussian distribution.  The assumption
+$\mathrm{Var}(\beps_i)=\sigma^2\bI$ can be relaxed using additional
+arguments in the model fitting.
+
+The basic specification of the model requires a linear model
+expression for the fixed effects and a linear model expression for the 
+random effects.  In \code{SAS PROC MIXED} the fixed-effects part is
+specified in the \code{model} statement and the random-effects
+part in the \code{random} statement.  In \code{lme} the
+arguments are called \code{fixed} and \code{random}.
+
+Both \code{SAS PROC MIXED} and \code{lme} allow a mixed-effects model to
+be fit by maximum likelihood (\code{method = ml} in SAS) or by maximum
+residual likelihood, sometimes also called restricted maximum
+likelihood or \textsf{REML}.  This is the default criterion in \code{SAS
+  PROC MIXED}.  The default criterion in \code{lme} is maximum
+likelihood.  To get \textsf{REML} estimates in \code{lme}, set the
+optional argument \code{REML=TRUE}.
+
+
+\section{Important differences}
+\label{sec:differences}
+
+One of the most important differences has just been stated but is
+worth repeating.  SAS defaults to \textsf{REML} fits; \code{lme}
+defaults to maximum likelihood fits.
+
+The output from \code{PROC MIXED} typically includes values of the
+Akaike Information Criterion (\textsf{AIC}) and Schwartz's Bayesian
+Criterion (\textsf{SBC}).  These are used to compare different models
+fit to the same data.  The output of the \code{summary} function applied
+to the object created by \code{lme} also produces values of \textsf{AIC}
+and \textsf{BIC} but the definitions used in \code{PROC MIXED} and in
+\code{lme} are different.  In \code{lme} the definitions are such that
+``smaller is better''.  In \code{PROC MIXED} the definitions are such
+that ``bigger is better''.
+
+When models are fit by \textsf{REML}, the values of \textsf{AIC},
+\textsf{SBC} (or \textsf{BIC}) and the log-likelihood can only be
+compared between models with exactly the same fixed-effects structure.
+When models are fit by maximum likelihood these criteria can be
+compared between any models fit to the same data.  That is, these
+quality-of-fit criteria can be used to evaluate different
+fixed-effects specifications or different random-effects
+specifications or different specifications of both fixed effects and
+random effects.  The greater flexibility of model comparisons when
+using maximum likelihood is the reason that this is the default
+criterion in \code{lme}.
+
+We encourage developing and testing the model using likelihood ratio
+tests or the \textsf{AIC} and \textsf{BIC} criteria.  Once a form
+for both the random effects and the fixed effects has been determined,
+the model can be refit with \code{REML = TRUE} if the restricted
+estimates of the variance components are desired.
+
+\section{Data manipulation}
+\label{sec:data}
+
+Both \code{PROC MIXED} and \code{lme} work with data in a tabular form
+with one row per observation.  There are, however, important
+differences in the internal representations of variables in the data.
+
+In \textsf{SAS} a qualitative factor can be stored either as numerical
+values or alphanumeric labels.  When a factor stored as numerical
+values is used in \code{PROC MIXED} it is listed in the \code{class}
+statement to indicate that it is a factor.  In \s{} this information
+is stored with the data itself by converting the variable to a factor
+when it is first stored.  If the factor represents an ordered set of
+levels, it should be converted to an \code{ordered} factor.
+
+For example the SAS code
+\begin{Example}
+data animal;
+ input trait animal y;
+ datalines;
+1 1 6
+1 2 8
+1 3 7
+2 1 9
+2 2 5
+2 3 .
+;
+\end{Example}
+would require that the \code{trait} and \code{animal} variables be
+specified in a class statement in any model that is fit.
+
+In \s{} these data could be read from a file, say \texttt{animal.dat},
+and converted to factors by
+\begin{Schunk}
+\begin{Sinput}
+animal <- read.table("animal.dat", header = TRUE)
+animal$trait <- as.factor(animal$trait)
+animal$animal <- as.factor(animal$animal)
+\end{Sinput}
+\end{Schunk}
+In general it is a good idea to check the types of variables in a data 
+frame before working with it.  One way of doing this is to apply
+the function \textsf{data.class} to each variable in turn using the
+\code{sapply} function.
+<<applyClass>>=
+sapply(Animal, data.class)
+str(Animal)
+@
+
+To make specification of models in \code{lme} easier and to make graphic
+presentations more informative, we recommend converting from a
+\code{data.frame} object to a \code{groupedData} object.  This class of
+objects contains a formula specifying the response, the primary
+covariate (if there is one) and the grouping factor or factors.  The
+data sets from \citet{litt:mill:stro:wolf:1996} have been
+converted to \code{groupedData} objects in this directory.
+
+\subsection{Unique levels of factors}
+\label{sec:nested}
+
+Designs with nested grouping factors are indicated differently in the
+two languages.  An example of such an experimental design is the
+semiconductor experiment described in section 2.2 of
+\citet{litt:mill:stro:wolf:1996} where twelve wafers are 
+assigned to four experimental treatments with three wafers per
+treatment.  The levels for the wafer factor are \code{1}, \code{2}, and
+\code{3} but the wafer factor is only meaningful within the same level
+of the treatment factor, \code{et}.  There is nothing associating wafer
+\code{1} of the third treatment group with wafer \code{1} of the first
+treatment group.
+
+In \code{SAS} this nesting of factors is denoted by \code{wafer(et)}.  In
+\s{} the nesting is written with \code{~ ET/Wafer} and read ``wafer
+within ET''.  If both levels of nested factors are to be associated
+with random effects then this is all you need to know.  You would use
+an expression with a \code{"/"} in the grouping factor part of the
+formula for the \code{groupedData} object.  Then the random effects
+could be specified as
+\begin{Example}
+  random = list( ET = ~ 1, Wafer = ~ 1 )
+\end{Example}
+or, equivalently
+\begin{Example}
+  random = ~ 1 | ET/Wafer
+\end{Example}
+
+In this case, however, there would not usually be any random effects
+associated with the ``experimental treatment'' or \code{ET} factor.  The 
+only random effects are at the \code{Wafer} level.  It is necessary to
+create a factor that will have unique levels for each \code{Wafer}
+within each level of \code{ET}.  One way to do this is to assign
+<<semiconductorGrp>>=
+Semiconductor$Grp <- with(Semiconductor, ET:Wafer)
+@ 
+after which we could specify \code{random = ~ 1 | Grp}.
+
+\subsection{General approach}
+\label{sec:generalApproach}
+
+As a general approach to importing data into \s{} for mixed-effects
+analysis you should:
+\begin{itemize}
+\item Create a \code{data.frame} with one row per observation and one
+  column per variable.
+\item Use \code{ordered} or \code{as.ordered} to convert any
+  ordered factors to class \code{ordered}.
+\item Use \code{factor} or \code{as.factor} to convert any
+  ordered factors to class \code{factor}.
+\item If necessary, use \code{interaction} or \code{:} to create a factor with unique
+  levels from inner nested factors.
+\item Specify the formula for the response, the primary covariate and
+  the grouping structure to create a \code{groupedData} object from the
+  data frame.  Labels and units for the response and the primary
+  covariate can also be specified at this time as can \code{outer} and
+  \code{inner} factor expressions.
+\item Plot the data.  Plot it several ways.  The use of lattice
+  graphics is closely integrated with the \code{lme4} library.
+  Lattice plots can provide invaluable insight into the structure of
+  the data.  Use them.
+\end{itemize}
+
+\section{Contrasts}
+\label{sec:contrasts}
+
+When comparing estimates produced by \code{SAS PROC MIXED} and by
+\code{lme} one must be careful to consider the contrasts that are
+used to define the effects of factors.  In \textsf{SAS} a model with
+an intercept and a qualitative factor is defined in terms of the
+intercept and the indicator variables for all but the last level of
+the factor.  The default behaviour in \s{} is to use the Helmert
+contrasts for the factor.  On a balanced factor these provide a set of 
+orthogonal contrasts.  In \R{} the default is the ``treatment''
+contrasts which are almost the same as the SAS parameterization except 
+that they drop the indicator of the first level, not the last level.
+
+When in doubt, check which contrasts are being used with the
+\textsf{contrasts} function.
+
+To make comparisons easier, you want to use
+<<contrasts,echo=TRUE,eval=FALSE>>=
+options(contrasts = c(factor = "contr.SAS", ordered = "contr.poly"))
+@ 
+at the beginning of your session.
+
+\bibliography{Usinglme}
+\appendix
+
+\section{AvgDailyGain}
+\label{sec:AvgDailyGain}
+
+Analysis of average daily weight gain data given as data set 5.3.
+Compare these results with output 5.1 (p.~178).
+
+<<adg1,fig=TRUE,echo=TRUE,width=5,height=6>>=
+print(gplot(AvgDailyGain))
+@ 
+\begin{figure}[tbp]
+  \centering
+  \includegraphics{figs/f-adg1}
+  \caption{Average daily weight gain}
+  \label{fig:adg1}
+\end{figure}
+<<adg>>=
+fm1Adg <- lme(adg ~ (Treatment - 1)*InitWt, 
+      data = AvgDailyGain, random = ~ 1 | Block)
+summary(fm1Adg)
+anova(fm1Adg)   # checking significance of terms
+fm2Adg <- update(fm1Adg, adg ~ InitWt + Treatment)  # common slope model
+summary(fm2Adg)
+anova(fm2Adg)
+summary(update(fm1Adg, adg ~ InitWt + Treatment - 1))
+@ 
+
+
+\section{BIB}
+\label{sec:BIB}
+
+A balanced incomplete, blocked design.  Compare with output 5.7
+(p.~188) and output 5.9 (p.~193).
+<<bib1,fig=TRUE,echo=TRUE,width=6,height=6>>=
+print(gplot(BIB))
+@ 
+\begin{figure}[tbp]
+  \centering
+  \includegraphics{figs/f-bib1}
+  \caption{Balanced incomplete block design}
+  \label{fig:bib1}
+\end{figure}
+<<bib>>=
+fm1BIB <- lme(y ~ Treatment * x, data = BIB, random = ~ 1 | Block)
+summary(fm1BIB)   # compare with Output 5.7, p. 188
+anova(fm1BIB)     # strong evidence of different slopes
+fm2BIB <- lme(y ~ Treatment + x : Grp, data = BIB,
+              random = ~ 1 | Block)
+summary(fm2BIB)   # compare with Output 5.9, p. 193
+anova(fm2BIB)
+@ 
+
+
+\section{Bond}
+\label{sec:Bond}
+
+Compare with output 1.1 (p.~6).
+<<bond>>=
+fm1Bond <- lme(pressure ~ Metal, data = Bond, random = ~ 1 | Ingot)
+summary(fm1Bond)               # compare with output 1.1 on p. 6
+anova(fm1Bond)
+@
+
+\section{Cultivation}
+\label{sec:Cultivation}
+
+<<cult1,fig=TRUE,echo=TRUE,width=5,height=6>>=
+print(bwplot(Cult ~ drywt|Block, Cultivation, layout = c(1, 4)))
+@ 
+\begin{figure}[tbp]
+  \centering
+  \includegraphics{figs/f-cult1}
+  \caption{Cultivation data}
+  \label{fig:adg1}
+\end{figure}
+
+A blocked split-plot design.  Compare these results with output 2.10 (p. 58).
+
+<<Cultiv>>=
+str(Cultivation)
+xtabs(~Block+Cult, Cultivation)
+fm1Cult <- lme(drywt ~ Inoc * Cult, data = Cultivation, 
+                random = list(Block = ~ 1, Cult = ~ 1))
+summary(fm1Cult)   # compare with Output 2.10, page 58
+anova(fm1Cult)
+fm2Cult <- update(fm1Cult, drywt ~ Inoc + Cult)
+anova(fm2Cult)
+fm3Cult <- update(fm1Cult, drywt ~ Inoc)
+anova(fm3Cult)
+summary(fm3Cult)
+@ 
+
+A blocked split-plot with missing data (sec 2.7, pp. 68-75).  The data
+in Block 1 and Cultivar 'a' are removed from the data set
+
+<<CultMiss1>>=
+CultMiss <- Cultivation[ Cultivation$Block != 1 | Cultivation$Cult != 'a', ]
+dim(CultMiss)
+@ 
+<<cultm1,fig=TRUE,echo=TRUE,width=5,height=6>>=
+print(bwplot(Cult ~ drywt|Block, CultMiss, layout=c(1,4)))
+@ 
+\begin{figure}[tbp]
+  \centering
+  \includegraphics{figs/f-cultm1}
+  \caption{Cultivation data with missing cell}
+  \label{fig:adg1}
+\end{figure}
+
+<<CultMiss2>>=
+fm1CultM <- lme(drywt ~ Cult * Inoc, CultMiss, list(Block = ~ 1, Cult = ~ 1),
+                method = "ML")
+summary(fm1CultM)
+fm2CultM <- update(fm1CultM, drywt ~ Cult + Inoc)
+fm3CultM <- update(fm1CultM, drywt ~ Inoc)
+fm4CultM <- update(fm1CultM, drywt ~ 1)
+anova(fm1CultM, fm2CultM, fm3CultM, fm4CultM)
+# Essentially the same conclusions as for the balanced data
+fm3RCultM <- update(fm3CultM, method = "REML")
+summary(fm3RCultM)
+@ 
+
+\section{Demand}
+\label{sec:Demand}
+
+<<demand1,fig=TRUE,echo=TRUE,width=5,height=6>>=
+print(gplot(Demand, scales=list(y=list(log=2))))
+@ 
+\begin{figure}[tbp]
+  \centering
+  \includegraphics{figs/f-demand1}
+  \caption{Per-capita demand deposits versus year by state.  The
+    vertical axis is on a logarithmic scale.}
+  \label{fig:demand1}
+\end{figure}
+Analysis of the per capita demand deposits data given as data set 3.6.
+Compare these results with output 3.13 (p.~132).
+
+Notice that although \code{Year} is stored numerically, it is
+converted to a factor when used as a grouping factor.
+<<Demand>>=
+str(Demand)
+fm1Demand <-
+  lme(log(d) ~ log(y) + log(rd) + log(rt) + log(rs), Demand, ~ 1|State+Year)
+summary(fm1Demand)
+@ 
+
+\section{Genetics}
+\label{sec:Genetics}
+
+Analysis of the heritability data given as data set 4.5.  To obtain a
+term for the location/family interaction we must create a separate
+grouping factor.  Similarly for the Block within Location.
+<<Genetics>>=
+Genetics$LocFam <- with(Genetics, Location:Family)
+Genetics$LocBloc <- with(Genetics, Location:Block)
+fm1Gen <- lme(Yield ~ 1, Genetics, ~1|LocFam + LocBloc + Family + Location)
+summary(fm1Gen)
+summary(fm2Gen <- lme(Yield ~ Family, Genetics, ~1|LocFam + LocBloc + Location))
+summary(fm3Gen <- lme(Yield ~ Family, Genetics, ~1|LocBloc + Location))
+anova(fm2Gen, fm3Gen)
+@ 
+
+\section{HR}
+\label{sec:HR}
+<<hr1,fig=TRUE,echo=TRUE,width=5,height=6>>=
+print(gplot(HR))
+@ 
+\begin{figure}[tbp]
+  \centering
+  \includegraphics{figs/f-hr1}
+  \caption{Heart rate data}
+  \label{fig:hr1}
+\end{figure}
+Analysis of the Heart rate data given as data set 3.5.  Compare with
+output 3.12 (pp.~128--129)
+<<HR>>=
+fm1HR <- lme(HR ~ Time * Drug + baseHR, data = HR,  # linear trend in time
+   random = ~ Time | Patient)
+summary(fm1HR)
+anova(fm1HR)
+fm3HR <- update(fm1HR, HR ~ Time + Drug + baseHR) # remove interaction
+anova(fm3HR)
+summary(fm3HR)
+fm4HR <- update(fm3HR, HR ~ Time + baseHR)  # remove Drug term
+anova(fm4HR)
+summary(fm4HR)
+@ 
+
+\section{Mississippi}
+\label{sec:Mississippi}
+<<mississippi1,fig=TRUE,echo=TRUE,width=5,height=2>>=
+print(gplot(Mississippi))
+@ 
+
+Analysis of the Mississippi nitrogren concentrations given as data set
+4.2.  Compare with output 4.1 (p.~142), 4.2 (p.~143) up to output 4.9
+(pp.~150--152). 
+\begin{figure}[tbp]
+  \centering
+  \includegraphics{figs/f-mississippi1}
+  \caption{Heart rate data}
+  \label{fig:mississippi1}
+\end{figure}
+
+<<Mississippi>>=
+fm1Miss <- lme(y ~ 1, data = Mississippi, random = ~ 1 | influent)
+summary(fm1Miss)        # compare with output 4.1, p. 142
+fm1MLMiss <- update(fm1Miss, method = "ML")
+summary(fm1MLMiss)        # compare with output 4.2, p. 143
+ranef(fm1MLMiss)          # BLUP's of random effects on p. 144
+ranef(fm1Miss)            # BLUP's of random effects on p. 142
+VarCorr(fm1Miss)          # compare to output 4.7, p. 148
+fm2Miss <- lme(y ~ Type, data = Mississippi, random = ~ 1 | influent,
+      method = "REML")
+summary(fm2Miss)         # compare to output 4.8 and 4.9, pp. 150-152
+anova(fm2Miss)
+@ 
+
+\section{Multilocation}
+\label{sec:Multilocation}
+
+Analysis of the Multilocation data with fixed effects for the
+locations.  We create a grouping factor for Block within Location and
+for the Location/Treatment interaction.
+
+<<Multilocation>>=
+### 
+str(Multilocation)
+### Create a Block %in% Location factor
+Multilocation$Grp <- with(Multilocation, Block:Location)[drop = TRUE]
+### Create a Location:Trt interaction factor
+Multilocation$Int <- with(Multilocation, Location:Trt)[drop = TRUE]
+fm1Mult <- lme(Adj ~ Location * Trt, data = Multilocation, ~ 1 | Grp)
+summary(fm1Mult)
+anova(fm1Mult)
+fm2Mult <- update(fm1Mult, Adj ~ Location + Trt)
+fm3Mult <- update(fm1Mult, Adj ~ Location)
+fm4Mult <- update(fm1Mult, Adj ~ Trt)
+fm5Mult <- update(fm1Mult, Adj ~ 1)
+summary(fm2Mult)
+anova(fm2Mult)
+anova(fm1Mult, fm2Mult, fm3Mult, fm4Mult, fm5Mult)
+fm2MultR <- lme(Adj ~ Trt-1, Multilocation,~1|Int+Location+Grp)
+summary(fm2MultR)
+@
+
+
+\section{PBIB}
+\label{sec:PBIB}
+
+A partially balanced incomplete block design.  Compare with output 1.7
+(pp.~24--25).
+<<PBIB>>= 
+str(PBIB)
+fm1PBIB <-
+   lme(response ~ Treatment, PBIB, ~ 1 | Block)
+summary(fm1PBIB)
+@ 
+
+
+\section{SIMS}
+\label{sec:SIMS}
+
+Analysis of the data from the Second International Mathematics Study.  
+Compare to output 7.4 (p.~262).
+<<SIMS>>=
+str(SIMS)
+fm1SIMS <- lme(Gain ~ Pretot, SIMS, ~ Pretot | Class)
+summary(fm1SIMS)              # 
+@ 
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

@@ -25,30 +25,25 @@
 	}
     }
 }
-\details{
-
-}
+%\details{}
 \source{
     Littel, R. C., Milliken, G. A., Stroup, W. W., and Wolfinger,
     R. D. (1996), \emph{SAS System for Mixed Models}, SAS Institute
     (Data Set 4.4).
 }
 \examples{
-options(
-  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
-data(Semi2)
-formula(Semi2)
-fm1Semi2 <- lme( Thickness ~ 1, data = Semi2,
-   random = ~ 1 | Lot/Wafer )
-summary( fm1Semi2 )       # compare with output 4.13, p. 156
-VarCorr( fm1Semi2 )
-anova( fm1Semi2 )
-fm2Semi2 <- update( fm1Semi2, Thickness ~ Source )
-summary( fm2Semi2 )       # compare with output 4.15, p. 159
-VarCorr( fm2Semi2 )
-fm3Semi2 <- update( fm2Semi2, 
-   random = list(Lot = pdDiag( ~ Source - 1 ), Wafer = ~ 1 ) )
-summary( fm3Semi2 )       # compare with output 4.17, p. 163
-VarCorr( fm3Semi2 )
+options(contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
+str(Semi2)
+xtabs(~Lot + Wafer, Semi2)
+Semi2$LotWafer <- with(Semi2, Lot:Wafer)
+fm1Semi2 <- lme(Thickness ~ 1, Semi2, ~ 1 | LotWafer + Lot)
+summary(fm1Semi2)       # compare with output 4.13, p. 156
+fm2Semi2 <- update(fm1Semi2, Thickness ~ Source)
+summary(fm2Semi2)       # compare with output 4.15, p. 159
+anova(fm2Semi2)
+Semi2$LotSrc <- with(Semi2, Lot:Source)
+fm3Semi2 <- update(fm2Semi2, random = ~ 1 | LotWafer + LotSrc)
+summary(fm3Semi2)       # compare with output 4.17, p. 163
+## This is not the same as the SAS model.
 }
 \keyword{datasets}

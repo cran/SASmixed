@@ -29,23 +29,21 @@ The \code{Mississippi} data frame has 37 rows and 3 columns.
     (Data Set 4.2).
 }
 \examples{
-options(
-  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
-data(Mississippi)
-formula( Mississippi )
-#plot( Mississippi )
-fm1Miss <- lme( y ~ 1, data = Mississippi, random = ~ 1 | influent )
-summary( fm1Miss )        # compare with output 4.1, p. 142
-fm1MLMiss <- update( fm1Miss, method = "ML" )
-summary( fm1MLMiss )        # compare with output 4.2, p. 143
-random.effects( fm1MLMiss ) # BLUP's of random effects on p. 144
-random.effects( fm1MLMiss , aug = TRUE )   # including covariates
-random.effects( fm1Miss )   # BLUP's of random effects on p. 142
-intervals( fm1Miss )        # interval estimates of variance components
-VarCorr( fm1Miss )          # compare to output 4.7, p. 148
-fm2Miss <- lme( y ~ Type, data = Mississippi, random = ~ 1 | influent,
-      method = "REML" )
-summary( fm2Miss )         # compare to output 4.8 and 4.9, pp. 150-152
-anova( fm2Miss )
+#options(
+#  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
+str(Mississippi)
+#plot(Mississippi)
+fm1Miss <- lme(y ~ 1, data = Mississippi, random = ~ 1 | influent)
+summary(fm1Miss)        # compare with output 4.1, p. 142
+fm1MLMiss <- update(fm1Miss, method = "ML")
+summary(fm1MLMiss)        # compare with output 4.2, p. 143
+ranef(fm1MLMiss)          # BLUP's of random effects on p. 144
+#random.effects(fm1MLMiss , aug = TRUE)   # including covariates
+ranef(fm1Miss)            # BLUP's of random effects on p. 142
+#intervals(fm1Miss)       # interval estimates of variance components
+fm2Miss <- lme(y ~ Type, data = Mississippi, random = ~ 1 | influent,
+      method = "REML")
+summary(fm2Miss)         # compare to output 4.8 and 4.9, pp. 150-152
+anova(fm2Miss)
 }
 \keyword{datasets}

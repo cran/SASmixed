@@ -38,21 +38,17 @@
     (Data Set 5.3).
 }
 \examples{
-data(AvgDailyGain)
-options(
-  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
+#options(
+#  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
 ## plot of adg versus Treatment by Block
-coplot(adg ~ as.numeric(Treatment) | Block, data = AvgDailyGain,
-       show = FALSE)
-fm1Adg <- lme( adg ~ InitWt * Treatment - 1, 
+gplot(AvgDailyGain)
+fm1Adg <- lme(adg ~ InitWt * Treatment - 1, 
       data = AvgDailyGain, random = ~ 1 | Block)
-summary( fm1Adg ) # compare with output 5.1, p. 178
-VarCorr( fm1Adg ) # show the variance component estimates
-anova( fm1Adg )   # checking significance of terms
-fm2Adg <- update( fm1Adg, adg ~ InitWt + Treatment )  # common slope model
-summary( fm2Adg )
-VarCorr( fm2Adg )
-anova( fm2Adg )
-summary( update( fm1Adg, adg ~ InitWt + Treatment - 1 ) )
+summary(fm1Adg) # compare with output 5.1, p. 178
+anova(fm1Adg)   # checking significance of terms
+fm2Adg <- update(fm1Adg, adg ~ InitWt + Treatment)  # common slope model
+summary(fm2Adg)
+anova(fm2Adg)
+summary(update(fm1Adg, adg ~ InitWt + Treatment - 1))
 }
 \keyword{datasets}

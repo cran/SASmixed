@@ -32,13 +32,11 @@
     \emph{Mathematical Statistics}, Wadsworth (Exercise 13.36).
 }
 \examples{
-data(Bond)
-options(
-  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
-formula(Bond)                    # check the formula
-fm1Bond <- lme( pressure ~ Metal, data = Bond, random = ~ 1 | Ingot)
-summary( fm1Bond )               # compare with output 1.1 on p. 6
-VarCorr( fm1Bond )               # variance component estimates 
-anova( fm1Bond )
+#options(
+#  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
+#formula(Bond)                    # check the formula
+fm1Bond <- lme(pressure ~ Metal, data = Bond, random = ~ 1 | Ingot)
+summary(fm1Bond)               # compare with output 1.1 on p. 6
+anova(fm1Bond)
 }
 \keyword{datasets}

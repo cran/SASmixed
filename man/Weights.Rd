@@ -35,28 +35,25 @@
   (Data Set 3.2(a)).
 }
 \examples{
-options(
-  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
-data(Weights)
-fm1Weight <- lme( strength ~ Program * Time,
+#options(
+#  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
+str(Weights)
+fm1Weight <- lme(strength ~ Program * Time,
                   data = Weights, random = ~ 1 | Subj)
-summary( fm1Weight )               # compare with output 3.1, p. 91
-VarCorr( fm1Weight )
-anova( fm1Weight )
-fm2Weight <- update( fm1Weight, random = ~ Time | Subj )
-anova( fm1Weight, fm2Weight )
-summary( fm2Weight )
-VarCorr( fm2Weight )
-intervals( fm2Weight )
+summary(fm1Weight)               # compare with output 3.1, p. 91
+anova(fm1Weight)
+fm2Weight <- update(fm1Weight, random = ~ Time | Subj)
+anova(fm1Weight, fm2Weight)
+summary(fm2Weight)
 \dontrun{
-fm3Weight <- update( fm2Weight, correlation = corAR1())
-anova( fm2Weight, fm3Weight )
-fm4Weight <- update( fm3Weight, strength ~ Program * (Time + I(Time^2)),
+intervals(fm2Weight)
+fm3Weight <- update(fm2Weight, correlation = corAR1())
+anova(fm2Weight, fm3Weight)
+fm4Weight <- update(fm3Weight, strength ~ Program * (Time + I(Time^2)),
                     random = ~Time|Subj)
-summary( fm4Weight )
-VarCorr( fm4Weight )
-anova( fm4Weight )
-intervals( fm4Weight )
+summary(fm4Weight)
+anova(fm4Weight)
+intervals(fm4Weight)
 }
 }
 \keyword{datasets}

@@ -19,22 +19,19 @@
 	}
     }
 }
-\details{
-}
+%\details{}
 \source{
     Littel, R. C., Milliken, G. A., Stroup, W. W., and Wolfinger,
     R. D. (1996), \emph{SAS System for Mixed Models}, SAS Institute
     (Data Set 1.5.1).
 }
 \examples{
-options(
-  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
-data(PBIB)
-formula( PBIB )
+#options(
+#  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
+str(PBIB)
 fm1PBIB <-
-   lme( response ~ Treatment, data = PBIB, random = ~ 1 | Block)
-summary( fm1PBIB )     # compare with output 1.7  pp. 24-25
-VarCorr( fm1PBIB )
-anova( fm1PBIB )
+   lme(response ~ Treatment, data = PBIB, random = ~ 1 | Block)
+summary(fm1PBIB)     # compare with output 1.7  pp. 24-25
+anova(fm1PBIB)
 }
 \keyword{datasets}

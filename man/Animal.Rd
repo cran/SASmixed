@@ -29,7 +29,6 @@
     (Data Set 6.4).
 }
 \examples{
-data(Animal)
 str(Animal)
 }
 \keyword{datasets}
