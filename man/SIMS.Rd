@@ -32,8 +32,8 @@
 }
 \examples{
 str(SIMS)
-fm1SIMS <- lme(Gain ~ Pretot, data = SIMS, 
-    random = ~ Pretot | Class, control = list(msVerbose = TRUE))
+fm1SIMS <- lmer(Gain ~ Pretot + (Pretot | Class), data = SIMS,
+                control = list(msVerbose = TRUE))
 summary(fm1SIMS)              # compare to output 7.4, p. 262
 anova(fm1SIMS)
 }

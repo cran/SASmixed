@@ -35,14 +35,12 @@
   (Data Set 3.2(a)).
 }
 \examples{
-#options(
-#  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
+options(contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
 str(Weights)
-fm1Weight <- lme(strength ~ Program * Time,
-                  data = Weights, random = ~ 1 | Subj)
+fm1Weight <- lmer(strength ~ Program * Time + (1|Subj), Weights)
 summary(fm1Weight)               # compare with output 3.1, p. 91
 anova(fm1Weight)
-fm2Weight <- update(fm1Weight, random = ~ Time | Subj)
+fm2Weight <- lmer(strength ~ Program * Time + (Time|Subj), Weights)
 anova(fm1Weight, fm2Weight)
 summary(fm2Weight)
 \dontrun{

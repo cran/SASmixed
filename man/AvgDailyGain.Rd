@@ -38,17 +38,15 @@
     (Data Set 5.3).
 }
 \examples{
-#options(
-#  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
+options(contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
 ## plot of adg versus Treatment by Block
 gplot(AvgDailyGain)
-fm1Adg <- lme(adg ~ InitWt * Treatment - 1, 
-      data = AvgDailyGain, random = ~ 1 | Block)
+fm1Adg <- lmer(adg ~ InitWt * Treatment - 1 + (1 | Block), AvgDailyGain)
 summary(fm1Adg) # compare with output 5.1, p. 178
 anova(fm1Adg)   # checking significance of terms
-fm2Adg <- update(fm1Adg, adg ~ InitWt + Treatment)  # common slope model
+fm2Adg <- lmer(adg ~ InitWt + Treatment + (1 | Block), AvgDailyGain)
 summary(fm2Adg)
 anova(fm2Adg)
-summary(update(fm1Adg, adg ~ InitWt + Treatment - 1))
+summary(lmer(adg ~ InitWt + Treatment - 1 + (1 | Block), AvgDailyGain))
 }
 \keyword{datasets}

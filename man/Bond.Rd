@@ -32,10 +32,8 @@
     \emph{Mathematical Statistics}, Wadsworth (Exercise 13.36).
 }
 \examples{
-#options(
-#  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
-#formula(Bond)                    # check the formula
-fm1Bond <- lme(pressure ~ Metal, data = Bond, random = ~ 1 | Ingot)
+options(contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
+fm1Bond <- lmer(pressure ~ Metal + (1|Ingot), Bond)
 summary(fm1Bond)               # compare with output 1.1 on p. 6
 anova(fm1Bond)
 }

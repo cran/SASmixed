@@ -32,8 +32,9 @@ options(contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
 str(Genetics)
 Genetics$LocFam <- with(Genetics, Location:Family)
 Genetics$LocBloc <- with(Genetics, Location:Block)
-fm1Gen <- lme(Yield ~ 1, Genetics, ~ 1 | LocBloc + LocFam + Location)
-summary(fm1Gen)
-summary(fm2Gen <- update(fm1Gen, Yield ~ Family))
+\dontrun{
+(fm1Gen <- lmer(Yield ~ 1 + (1|LocBloc) + (1|LocFam) + (1|Location), Genetics))
+(fm2Gen <- lmer(Yield ~ Family + (1|LocBloc) + (1|LocFam) + (1|Location), Genetics))
+}
 }
 \keyword{datasets}

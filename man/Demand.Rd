@@ -46,8 +46,8 @@
 \examples{
 str(Demand)
 fm1Demand <-
-  lme(log(d) ~ log(y) + log(rd) + log(rt) + log(rs), data = Demand,
-  random = list(State = ~ 1, Year = ~ 1))
+  lmer(log(d) ~ log(y) + log(rd) + log(rt) + log(rs) + (1|State) + (1|Year),
+       Demand)
 summary(fm1Demand)        # compare to output 3.13, p. 132
 }
 \keyword{datasets}

@@ -33,12 +33,9 @@
     (Data Set 3.5).
 }
 \examples{
-#options(
-#  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
+options(contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
 gplot(HR)
-fm1HR <- lme(HR ~ Time * Drug + baseHR, data = HR,  # linear trend in time
-   random = ~ Time | Patient)
-summary(fm1HR)
+(fm1HR <- lmer(HR ~ Time * Drug + baseHR + (Time|Patient), HR))  # linear trend in time
 anova(fm1HR)
 \dontrun{
 fm2HR <- update(fm1HR, weights = varPower(0.5)) # use power-of-mean variance
@@ -46,11 +43,9 @@ summary(fm2HR)
 intervals(fm2HR)             # variance function does not seem significant
 anova(fm1HR, fm2HR)         # confirm with likelihood ratio
 }
-fm3HR <- update(fm1HR, HR ~ Time + Drug + baseHR) # remove interaction
+(fm3HR <- lmer(HR ~ Time + Drug + baseHR + (Time|Patient), HR))
 anova(fm3HR)
-summary(fm3HR)
-fm4HR <- update(fm3HR, HR ~ Time + baseHR)  # remove Drug term
+(fm4HR <- lmer(HR ~ Time + baseHR + (Time|Patient), HR))  # remove Drug term
 anova(fm4HR)
-summary(fm4HR)
 }
 \keyword{datasets}

@@ -37,14 +37,12 @@
     (Data Set 5.4).
 }
 \examples{
-#options(
-#  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
+options(contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
 gplot(BIB)
-fm1BIB <- lme(y ~ Treatment * x, data = BIB, random = ~ 1 | Block)
+fm1BIB <- lmer(y ~ Treatment * x + (1 | Block), BIB)
 summary(fm1BIB)   # compare with Output 5.7, p. 188
 anova(fm1BIB)     # strong evidence of different slopes
-fm2BIB <- lme(y ~ Treatment + x : Grp, data = BIB,
-              random = ~ 1 | Block)
+fm2BIB <- lmer(y ~ Treatment + x : Grp + (1 | Block), BIB)
 summary(fm2BIB)   # compare with Output 5.9, p. 193
 anova(fm2BIB)
 }

@@ -50,24 +50,22 @@ options(contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
 str(Multilocation)
 ### Create a Block %in% Location factor
 Multilocation$Grp <- with(Multilocation, Block:Location)
-fm1Mult <- lme(Adj ~ Location * Trt, data = Multilocation, ~ 1 | Grp)
-summary(fm1Mult)
+(fm1Mult <- lmer(Adj ~ Location * Trt + (1|Grp), Multilocation))
 anova(fm1Mult)
-fm2Mult <- update(fm1Mult, Adj ~ Location + Trt)
-fm3Mult <- update(fm1Mult, Adj ~ Location)
-fm4Mult <- update(fm1Mult, Adj ~ Trt)
-fm5Mult <- update(fm1Mult, Adj ~ 1)
-summary(fm2Mult)
+(fm2Mult <- lmer(Adj ~ Location + Trt + (1|Grp), Multilocation))
+fm3Mult <- lmer(Adj ~ Location + (1|Grp), Multilocation)
+fm4Mult <- lmer(Adj ~ Trt + (1|Grp), Multilocation)
+fm5Mult <- lmer(Adj ~ 1 + (1|Grp), Multilocation)
 anova(fm2Mult)
 anova(fm1Mult, fm2Mult, fm3Mult, fm4Mult, fm5Mult)
 Multilocation$LocTrt <- with(Multilocation, Location:Trt)
 ### Treating the location as a random effect
-fm1MultR <- lme(Adj ~ Trt, Multilocation, ~ 1 | LocTrt + Location + Grp)
-summary(fm1MultR)
+\dontrun{
+(fm1MultR <- lmer(Adj ~ Trt + (1|LocTrt) + (1|Location) + (1|Grp), Multilocation))
 #intervals(fm1MultR)
 anova(fm1MultR)
-fm2MultR <-
-  update(fm1MultR, random = list(Location = ~ Trt - 1, Block = ~ 1))
+fm2MultR <- lmer(Adj ~ Trt + (Trt - 1|Location) + (1|Block), Multilocation)
 anova(fm1MultR, fm2MultR)
+}
 }
 \keyword{datasets}

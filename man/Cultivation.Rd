@@ -34,17 +34,15 @@
 	System for Linear Models, Third Ed.}, SAS Institute.
 }
 \examples{
-#options(
-#  contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
+options(contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
 str(Cultivation)
 xtabs(~Block+Cult, Cultivation)
-fm1Cult <- lme(drywt ~ Inoc * Cult, data = Cultivation, 
-                random = list(Block = ~ 1, Cult = ~ 1))
+fm1Cult <- lmer(drywt ~ Inoc * Cult + (1|Block) + (1|Cult), Cultivation)
 summary(fm1Cult)   # compare with Output 2.10, page 58
 anova(fm1Cult)
-fm2Cult <- update(fm1Cult, drywt ~ Inoc + Cult)
+fm2Cult <- lmer(drywt ~ Inoc + Cult + (1|Block) + (1|Cult), Cultivation)
 anova(fm2Cult)
-fm3Cult <- update(fm1Cult, drywt ~ Inoc)
+fm3Cult <- lmer(drywt ~ Inoc + (1|Block) + (1|Cult), Cultivation)
 anova(fm3Cult)
 summary(fm3Cult)
 }

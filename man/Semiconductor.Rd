@@ -37,10 +37,9 @@
 \examples{
 options(contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
 str(Semiconductor)
-fm1Semi <- lme(resistance ~ ET * position, Semiconductor, ~ 1 | Grp)
-summary(fm1Semi)
+(fm1Semi <- lmer(resistance ~ ET * position + (1|Grp), Semiconductor))
 anova(fm1Semi)
-fm2Semi <- update(fm1Semi, resistance ~ ET + position)
+(fm2Semi <- lmer(resistance ~ ET + position + (1|Grp), Semiconductor))
 anova(fm2Semi)
 }
 \keyword{datasets}
