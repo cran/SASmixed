@@ -66,12 +66,13 @@ summary( fm2Mult )
 VarCorr( fm2Mult )
 anova( fm2Mult )
 ### Treating the location as a random effect
-fm1MultR <- lme( Adj ~ Trt, data = Multilocation,
+\dontrun{fm1MultR <- lme( Adj ~ Trt, data = Multilocation,
   random = list( Location = pdCompSymm( ~ Trt - 1 ), Block = ~ 1 ) )
 summary( fm1MultR )
-\dontrun{intervals( fm1MultR )}
+intervals( fm1MultR )
 VarCorr( fm1MultR )
 anova( fm1MultR )
+}
 \dontrun{
 fm2MultR <-
   update( fm1MultR, random = list( Location = ~ Trt - 1, Block = ~ 1 ))

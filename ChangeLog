@@ -1,3 +1,8 @@
+2003-04-29  Douglas Bates  <bates@stat.wisc.edu>
+
+	* man/Multilocation.Rd: Comment out the fm1MultR example.  In some
+	cases it converges but always to a 'boundary' answer.
+
 2001-12-30  Douglas Bates  <bates@stat.wisc.edu>
 
 	* man/Multilocation.Rd: Commented out the call to intervals in the
