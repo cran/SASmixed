@@ -43,7 +43,7 @@ fm1HR <- lme( HR ~ Time * Drug + baseHR, data = HR,  # linear trend in time
 summary( fm1HR )
 VarCorr( fm1HR )
 anova( fm1HR )
-fm2HR <- update( fm1HR, weights = varPower(0) ) # use power-of-mean variance
+fm2HR <- update( fm1HR, weights = varPower(0.5) ) # use power-of-mean variance
 summary( fm2HR )
 VarCorr( fm1HR )
 intervals( fm2HR )             # variance function does not seem significant

@@ -1,3 +1,8 @@
+2003-06-04  Douglas Bates  <bates@stat.wisc.edu>
+
+	* man/HR.Rd: Change starting estimate in ill-considered fit with a
+	variance function.
+
 2003-04-29  Douglas Bates  <bates@stat.wisc.edu>
 
 	* man/Multilocation.Rd: Comment out the fm1MultR example.  In some
