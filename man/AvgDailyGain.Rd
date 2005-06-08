@@ -40,7 +40,7 @@
 \examples{
 options(contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
 ## plot of adg versus Treatment by Block
-gplot(AvgDailyGain)
+if (require("latticeExtra", quietly = TRUE)) gplot(AvgDailyGain)
 fm1Adg <- lmer(adg ~ InitWt * Treatment - 1 + (1 | Block), AvgDailyGain)
 summary(fm1Adg) # compare with output 5.1, p. 178
 anova(fm1Adg)   # checking significance of terms

@@ -17,6 +17,7 @@
 %%\VignetteIndexEntry{lmer for SAS PROC MIXED Users}
 %%\VignetteDepends{SASmixed}
 %%\VignetteDepends{lme4}
+%%\VignetteDepends{latticeExtra}
 \begin{document}
 \SweaveOpts{engine=R,eps=FALSE,pdf=TRUE,width=5,height=3,strip.white=TRUE}
 \SweaveOpts{prefix=TRUE,prefix.string=figs/f,include=FALSE}
@@ -29,6 +30,7 @@
 <<preliminaries,echo=FALSE,results=hide>>=
 options(width=75, contrasts=c(unordered="contr.SAS",ordered="contr.poly"))
 library(SASmixed)
+library(latticeExtra)
 @ 
 \section{Introduction}
 \label{sec:intro}
@@ -79,21 +81,16 @@ specified in the \code{model} statement and the random-effects
 part in the \code{random} statement.  In \code{lmer} the
 arguments are called \code{fixed} and \code{random}.
 
-Both \code{SAS PROC MIXED} and \code{lmer} allow a mixed-effects model to
-be fit by maximum likelihood (\code{method = ml} in SAS) or by maximum
-residual likelihood, sometimes also called restricted maximum
-likelihood or \textsf{REML}.  This is the default criterion in \code{SAS
-  PROC MIXED}.  The default criterion in \code{lmer} is maximum
-likelihood.  To get \textsf{REML} estimates in \code{lmer}, set the
-optional argument \code{REML=TRUE}.
-
+Both \code{SAS PROC MIXED} and \code{lmer} allow a mixed-effects model
+to be fit by maximum likelihood (\code{method = ml} in SAS) or by
+maximum residual likelihood, sometimes also called restricted maximum
+likelihood or \textsf{REML}.  This is the default criterion in
+\code{SAS PROC MIXED} and in \code{lmer}.  To get \textsf{ML}
+estimates in \code{lmer}, set the optional argument
+\code{method="REML"}.
 
 \section{Important differences}
 \label{sec:differences}
-
-One of the most important differences has just been stated but is
-worth repeating.  SAS defaults to \textsf{REML} fits; \code{lmer}
-defaults to maximum likelihood fits.
 
 The output from \code{PROC MIXED} typically includes values of the
 Akaike Information Criterion (\textsf{AIC}) and Schwartz's Bayesian

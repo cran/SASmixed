@@ -38,7 +38,7 @@
 }
 \examples{
 options(contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
-gplot(BIB)
+if (require("latticeExtra", quietly = TRUE)) gplot(BIB)
 fm1BIB <- lmer(y ~ Treatment * x + (1 | Block), BIB)
 summary(fm1BIB)   # compare with Output 5.7, p. 188
 anova(fm1BIB)     # strong evidence of different slopes

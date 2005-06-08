@@ -34,7 +34,7 @@
 }
 \examples{
 options(contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
-gplot(HR)
+if (require("latticeExtra", quietly = TRUE)) gplot(HR)
 (fm1HR <- lmer(HR ~ Time * Drug + baseHR + (Time|Patient), HR))  # linear trend in time
 anova(fm1HR)
 \dontrun{
