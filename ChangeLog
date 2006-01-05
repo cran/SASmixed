@@ -1,3 +1,7 @@
+2006-01-04  Douglas Bates  <bates@stat.wisc.edu>
+
+	* man/BIB.Rd: Remove calls to gplot in this and other examples.
+
 2005-04-01  Douglas Bates  <bates@bates1-home>
 
 	* DESCRIPTION: Upgrade dependency to lme4_0.95-1 or later.  Change

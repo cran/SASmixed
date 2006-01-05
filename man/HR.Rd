@@ -34,7 +34,11 @@
 }
 \examples{
 options(contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
-if (require("latticeExtra", quietly = TRUE)) gplot(HR)
+if (require("lattice", quietly = TRUE, character = TRUE)) {
+  xyplot(HR ~ Time | Patient, HR, type = c("g", "p", "r"), aspect = "xy",
+         index.cond = function(x, y) coef(lm(y ~ x))[1],
+         ylab = "Heart rate (beats/min)")
+}
 (fm1HR <- lmer(HR ~ Time * Drug + baseHR + (Time|Patient), HR))  # linear trend in time
 anova(fm1HR)
 \dontrun{

@@ -16,8 +16,7 @@
   fontsize=\small}
 %%\VignetteIndexEntry{lmer for SAS PROC MIXED Users}
 %%\VignetteDepends{SASmixed}
-%%\VignetteDepends{lme4}
-%%\VignetteDepends{latticeExtra}
+%%\VignetteDepends{lattice}
 \begin{document}
 \SweaveOpts{engine=R,eps=FALSE,pdf=TRUE,width=5,height=3,strip.white=TRUE}
 \SweaveOpts{prefix=TRUE,prefix.string=figs/f,include=FALSE}
@@ -30,12 +29,12 @@
 <<preliminaries,echo=FALSE,results=hide>>=
 options(width=75, contrasts=c(unordered="contr.SAS",ordered="contr.poly"))
 library(SASmixed)
-library(latticeExtra)
+library(lattice)
 @ 
 \section{Introduction}
 \label{sec:intro}
 
-The \code{lmer} function from the \code{lme4} library for \textsf{R} is used
+The \code{lmer} function from the \code{Matrix} library for \textsf{R} is used
 to fit linear mixed-effects models.  It is similar in scope to the
 \textsf{SAS} procedure \code{PROC MIXED} described in
 \citet{litt:mill:stro:wolf:1996}.
@@ -272,7 +271,10 @@ at the beginning of your session.
 \label{sec:AvgDailyGain}
 
 <<adg1,fig=TRUE,echo=TRUE,width=5,height=6>>=
-print(gplot(AvgDailyGain))
+print(xyplot(adg ~ Treatment | Block, AvgDailyGain, type = c("g", "p", "r"),
+       xlab = "Treatment (amount of feed additive)",
+       ylab = "Average daily weight gain (lb.)", aspect = "xy",
+       index.cond = function(x, y) coef(lm(y ~ x))[1]))
 @ 
 \begin{figure}[tbp]
   \centering
@@ -294,7 +296,9 @@ anova(fm2Adg)
 \section{BIB}
 \label{sec:BIB}
 <<bib1,fig=TRUE,echo=TRUE,width=6,height=6>>=
-print(gplot(BIB))
+print(xyplot(y ~ x | Block, BIB, groups = Treatment, type = c("g", "p"),
+             aspect = "xy", auto.key = list(points = TRUE, space = "right",
+             lines = FALSE)))
 @ 
 \begin{figure}[tbp]
   \centering

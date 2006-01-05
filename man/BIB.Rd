@@ -38,7 +38,11 @@
 }
 \examples{
 options(contrasts = c(unordered = "contr.SAS", ordered = "contr.poly"))
-if (require("latticeExtra", quietly = TRUE)) gplot(BIB)
+if (require("lattice", quietly = TRUE, character = TRUE)) {
+  xyplot(y ~ x | Block, BIB, groups = Treatment, type = c("g", "p"),
+         aspect = "xy", auto.key = list(points = TRUE, space = "right",
+         lines = FALSE))
+}
 fm1BIB <- lmer(y ~ Treatment * x + (1 | Block), BIB)
 summary(fm1BIB)   # compare with Output 5.7, p. 188
 anova(fm1BIB)     # strong evidence of different slopes
