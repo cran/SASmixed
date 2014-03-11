@@ -6,6 +6,7 @@
 options(width=75, contrasts=c(unordered="contr.SAS",ordered="contr.poly"))
 library(SASmixed)
 library(lme4)
+library(lattice)
 
 
 ###################################################

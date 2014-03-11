@@ -1,6 +1,7 @@
 f7dcb09dcceda1afc252cbe663a03a61 *ChangeLog
-2c144048fcdde84a75e6e927724a297d *DESCRIPTION
+305aa6175d68de19fffaaf529f613c96 *DESCRIPTION
 78e3a88f875665cfbd477496fbecae0b *NAMESPACE
+69fb32d7934ecab87606610e12a3c80e *build/vignette.rds
 9673afbc255b3286d396545fbe4cac6c *data/Animal.rda
 a3e985f2cb73f43c73bb6dadd23d96cf *data/AvgDailyGain.rda
 aebe1fe2bddd63751bb82d3d487aa235 *data/BIB.rda
@@ -21,8 +22,8 @@ bdd5e5a73cc6b591227d3b1ba43acae9 *data/TeachingII.rda
 30f0853f140ffc57618886fa3f21831b *data/WWheat.rda
 622df1f34888688b7ed15285e084113b *data/WaferTypes.rda
 6ce02b18d1b77b617596abd0a32dc909 *data/Weights.rda
-29aeee25b719515f829333a0f33b2b61 *inst/doc/Usinglmer.R
-b8019d400906bab769230bbef94a41fd *inst/doc/Usinglmer.Rnw
+5301e4d33107c0a8fbd18e7b779a0350 *inst/doc/Usinglmer.R
+c76533389dd2369800df838e7c7552c4 *inst/doc/Usinglmer.Rnw
 c3439525580762fc6f834c4831f8acfb *inst/doc/Usinglmer.pdf
 f2bd088392cff054e939d05e20cbfd38 *inst/transcripts/AvgDGain.St
 0aa0a6055d7ec4aa5fd2e24f07a1bb60 *inst/transcripts/AvgDGain.q
@@ -73,8 +74,8 @@ acf81d806c59e35c39c31c1daa8cba56 *man/TeachingII.Rd
 a5ce1c23c610e1ff3f1754b879d04093 *man/WWheat.Rd
 c61581a0dc8a5e68bea8a596c8b4be21 *man/WaferTypes.Rd
 bc6c6f25fb59e60a5c7d86f3a7344af6 *man/Weights.Rd
-b8019d400906bab769230bbef94a41fd *vignettes/Usinglmer.Rnw
+c76533389dd2369800df838e7c7552c4 *vignettes/Usinglmer.Rnw
 6499a2689357bb1bd52e6690e5b9f8a2 *vignettes/Usinglmer.bib
-3974856285fab0bae80de683dda8252b *vignettes/figs/f-adg1.pdf
-20f49be04117cd0537160652ee90b684 *vignettes/figs/f-bib1.pdf
+6b04a9ce0c4566cb19e4ab0fa2b18b0a *vignettes/figs/f-adg1.pdf
+a0d76ab6e05bb9bbf7c88a72272b9e64 *vignettes/figs/f-bib1.pdf
 6edee78f20785660ce5ee78f06bc09b4 *vignettes/myVignette.sty
