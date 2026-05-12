@@ -41,7 +41,7 @@ to fit linear mixed-effects models.  It is similar in scope to the
 \textsf{SAS} procedure \code{PROC MIXED} described in
 \citet{litt:mill:stro:wolf:1996}.
 
-A file on the SAS Institute web site (\textsf{http://www.sas.com})
+A file on the SAS Institute web site (\textsf{https://www.sas.com})
 contains all the data sets in the book and all the SAS programs used
 in \citet{litt:mill:stro:wolf:1996}.  We have converted the data
 sets from the tabular representation used for SAS to the

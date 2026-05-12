@@ -38,7 +38,7 @@ the .q file and used C-c C-n to step through the file sending the
 commands to the S-PLUS process.  Of course this can also be done in
 ESS by finding the transcript file itself then using C-m in the
 transcript file.  ESS is available from 
-		  http://franz.stat.wisc.edu/pub/ESS
+		  https://franz.stat.wisc.edu/pub/ESS
 
 
 

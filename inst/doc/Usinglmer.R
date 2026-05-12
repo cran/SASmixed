@@ -160,5 +160,3 @@ str(PBIB)
 str(SIMS)
 ## compare to output 7.4, p. 262
 (fm1SIMS <- lmer(Gain ~ Pretot + (Pretot | Class), SIMS))
-
-
